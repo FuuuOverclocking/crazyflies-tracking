@@ -5,6 +5,8 @@ from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.log import LogConfig
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.crazyflie.syncLogger import SyncLogger
+from cflib.positioning.motion_commander import MotionCommander
+
 
 from data import Data
 from controller import Controller
@@ -48,5 +50,6 @@ with SyncCrazyflie(URI, cf=Crazyflie(rw_cache='./cache')) as scf:
     try:
         while True:
             ctol.tick()
-    except:
+    except BaseException as err:
+        print(err)
         ctol.land()

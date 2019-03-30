@@ -16,10 +16,11 @@ class Data(object):
     # 衡量距离在快速变化的量
     distance_rapid_changing = 0
 
-    def update(self, timestamp, data, logconf):
+    rapid_changing = 0
+
+    def update(self, timestamp, _data, logconf):
         self.push_raw_distance(_data['ranging.distance0'])
 
-        self.distance_check()
         self.next_beat()
 
     def push_raw_distance(self, raw_distance):

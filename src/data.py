@@ -1,18 +1,18 @@
 from collections import deque
 
-class Data(object):
-    # 滤波权重
-    FILTER_POWER = (14, 13, 12, 11, 10, 10, 9, 8, 7, 6)
-    # 滤波权重和
-    FILTER_SUM = 100
+# 滤波权重
+FILTER_POWER = (27, 20, 15, 11, 8, 6, 4, 2, 1, 1)
+# 滤波权重和
+FILTER_SUM = 95
 
+class Data(object):
     # 节拍
     beat = 0
 
     # 原始距离信息
-    raw_distance = deque([0]*100, maxlen=1000)
+    raw_distance = deque([0]*100, maxlen=5000)
     # 可用的距离数据，已滤波
-    distance = deque([0]*100, maxlen=1000)
+    distance = deque([0]*100, maxlen=5000)
     # 衡量距离在快速变化的量
     distance_rapid_changing = 0
 
@@ -29,8 +29,8 @@ class Data(object):
         filter_result = 0
 
         for i in range(10):
-            filter_result += history[i] * self.FILTER_POWER[i]
-        filter_result /= self.FILTER_SUM
+            filter_result += history[i] * FILTER_POWER[i]
+        filter_result /= FILTER_SUM
 
         self.distance.append(filter_result)
 

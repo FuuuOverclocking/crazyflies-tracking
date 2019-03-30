@@ -22,8 +22,10 @@ log_config.add_variable('ranging.distance0', 'float')
 
 data = Data()
 
+
 def log_handler(timestamp, _data, logconf):
     data.update(timestamp, _data, logconf)
+
 
 with SyncCrazyflie(URI, cf=Crazyflie(rw_cache='./cache')) as scf:
     scf.cf.log.add_config(log_config)
@@ -36,8 +38,15 @@ with SyncCrazyflie(URI, cf=Crazyflie(rw_cache='./cache')) as scf:
 
     mc.take_off(1.0, 0.3)
 
+    # 利用更底层函数精确指定悬浮高度为 1m
+    scf.cf.commander.send_hover_setpoint(0, 0, 0, 1.0)
+    mc._thread._z_base = 1.0
+    mc._thread._z_velocity = 0.0
+    mc._thread._z_base_time = time.time()
+    time.sleep(1)
+
     try:
         while True:
             ctol.tick()
-    except KeyboardInterrupt:
+    except:
         ctol.land()

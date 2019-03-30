@@ -5,13 +5,13 @@ from math import pi, cos, sin
 STATE_DECIDE_TIME = 3
 # 合适距离区间，米
 OK_DISTANCE_FROM = 1
-OK_DISTANCE_TO = 2
+OK_DISTANCE_TO = 1.5
 
 MOVE_SAMPLING_TIME = 1.0
-MOVE_LASTING_TIME = 2.0
+MOVE_LASTING_TIME = 3.0
 
 THRESHOLD = 0.2
-BASIC_VEL = 0.3
+BASIC_VEL = 0.6
 
 
 def get_distance_avg(data, sampling_data_number):
@@ -86,6 +86,8 @@ def decide_state(last_state, data):
             state['sampling'] = False
             state['global'] = decide_global_state(
                 data, state['sampling_data_number'])
+            state['substate_init'] = 0
+
 
     if state['global'] == 'approach' or state['global'] == 'leave':
         if state['sampling']:
